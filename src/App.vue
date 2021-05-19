@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
+    <router-view></router-view>  
   </div>
 </template>
 
@@ -9,20 +8,22 @@
 import HelloWorld from './components/HelloWorld'
 
 export default {
-  name: 'App',
+  name: "App",
+  created(){
+    // const api = 'https://vue-course-api.hexschool.io/api/luhuangjack/products';
+    const api = `${process.env.APIPATH}/api/${process.env.CUSTOMERPATH}/products`
+    console.log(process.env.APIPATH, process.env.CUSTOMERPATH);
+
+    this.$http.get(api).then((resopnse)=>{
+      console.log(resopnse.data);
+    })
+  },
   components: {
-    HelloWorld
-  }
-}
+    HelloWorld,
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+@import "./assets/all";
 </style>
