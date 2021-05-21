@@ -32,7 +32,6 @@
             </tbody>
         </table>
         <!-- Modal -->
-        <!-- Modal -->
         <div class="modal fade" id="productModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -51,7 +50,7 @@
             </div>
             </div>
         </div>
-        </div> 
+        </div>
     </div>
 </template>
 
@@ -77,9 +76,10 @@ export default {
         },
         openModel(){
             // $('#productModel').model('show');
-            this.getProducts();
-            $('#productModel')
-            console.log($('#productModel'));
+            // this.getProducts();
+            // $('#productModel')
+            $('#productModel').modal('show')
+            // console.log($('#productModel'));
         }
     },
     created() {
