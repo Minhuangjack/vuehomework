@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import 'bootstrap';
+
 import App from './App'
 import router from './router';
 
@@ -18,4 +20,29 @@ new Vue({
   router,
   components: { App },
   template: '<App/>'
+})
+
+//rou
+router.beforeEach((to, from, next) => {
+  console.log('to', to, 'from', from, 'next', next)
+  if (to.meta.requiresAuth) {
+    // 去檢查是否有登入
+    const api = `${process.env.APIPATH}/api/user/check`
+
+    axios.post(api).then((resopnse) => {
+      console.log(resopnse);
+      console.log(resopnse.data);
+      if (resopnse.data.success) {
+        next();
+      } else{
+        next({
+          path: '/login',
+        });
+      }
+    })
+  } else {
+    // 不用檢查
+    next();
+  }
+
 })

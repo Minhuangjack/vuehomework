@@ -4,7 +4,9 @@ import VueRouter from 'vue-router';
 
 //自訂的分頁元件
 import Home from '@/components/HelloWorld';
+import Dashboard from '@/components/Dashboard';
 import Login from '@/components/pages/Login';
+import Products from '@/components/pages/Products';
 
 //啟用
 Vue.use(VueRouter);
@@ -12,18 +14,35 @@ Vue.use(VueRouter);
 
 export default new VueRouter({
     routes:[
-        {            
-            name: '首頁', // 元件會呈現的名稱
-            path: '/', // 虛擬的路徑
-            component: Home, // 對應的元件
+        {
+            path: '*',
+            redirect: 'login'
         },
+        // {            
+        //     name: '首頁', // 元件會呈現的名稱
+        //     path: '/', // 虛擬的路徑
+        //     component: Home, // 對應的元件
+        //     meta: { requiresAuth: true }
+        // },
         
         {
             name: 'Login',
             path: '/login', // 虛擬的路徑
             component: Login, // 對應的元件
         },
-        
+        {            
+            name: 'Dashboard', // 元件會呈現的名稱
+            path: '/admin', // 虛擬的路徑
+            component: Dashboard, // 對應的元件                        
+            children: [
+                {
+                    name: 'Products',
+                    path: 'products', // 虛擬的路徑
+                    component: Products, // 對應的元件
+                    meta: { requiresAuth: true },
+                },
+            ]
+        },
         /*{
             // name: '分頁', // 元件會呈現的名稱
             path: '/page', // 虛擬的路徑
