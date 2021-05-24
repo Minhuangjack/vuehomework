@@ -37,7 +37,12 @@ export default {
           this.$http.post(api, vm.user).then((resopnse)=>{
             console.log(resopnse.data);
             if(resopnse.data.success){
-                vm.$router.push('/admin/products');
+              const token = resopnse.data.token;
+              const expired = resopnse.data.expired;
+              console.log(token, expired);
+              // document.cookie = `someCookieName=true; expires=Fri, 31 Dec 9999 23:59:59 GMT;`;
+              document.cookie = `hexToken=${token}; expires=${ new Date(expired) };`;
+              vm.$router.push('/admin/products');
             }            
           })          
       }
