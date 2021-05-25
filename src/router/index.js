@@ -7,6 +7,7 @@ import Home from '@/components/HelloWorld';
 import Dashboard from '@/components/Dashboard';
 import Login from '@/components/pages/Login';
 import Products from '@/components/pages/Products';
+import CustomerOrder from '@/components/pages/CustomerOrders';
 
 //啟用
 Vue.use(VueRouter);
@@ -40,6 +41,18 @@ export default new VueRouter({
                     path: 'products', // 虛擬的路徑
                     component: Products, // 對應的元件
                     meta: { requiresAuth: true },
+                },
+            ]
+        },
+        {            
+            name: 'Dashboard', // 元件會呈現的名稱
+            path: '/', // 虛擬的路徑
+            component: Dashboard, // 對應的元件                        
+            children: [
+                {
+                    name: 'CustomerOrder',
+                    path: 'customer_order', // 虛擬的路徑
+                    component: CustomerOrder, // 對應的元件
                 },
             ]
         },

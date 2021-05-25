@@ -20,8 +20,8 @@
                 <tr v-for="(item, key)  in products" :key="item.id">
                     <td>{{ item.category }}</td>
                     <td>{{ item.title }}</td>
-                    <td class="text-right">{{ item.origin_price }}</td>
-                    <td class="text-right">{{ item.price }}</td>
+                    <td class="text-right">{{ item.origin_price | currency }}</td>
+                    <td class="text-right">{{ item.price | currency }}</td>
                     <td>
                         <span v-if="item.is_enabled" class="text-success">啟用</span>
                         <span v-else>未啟用</span>
@@ -41,9 +41,12 @@
                 </tr>
             </tbody>
         </table>
+
+         <!-- 將 pagination 傳進元件，並且呼叫此元件的事件名稱 changePage -->
+        <Pagination :pagination="pagination" @changePage="getProducts"></Pagination> 
         <!-- Modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
         	<div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content border-0">
                 <div class="modal-header bg-dark text-white">
@@ -175,11 +178,13 @@
 <script>
 /* global $ */
 import $ from 'jquery'
+import Pagination from "@/components/Pagination";
 
 export default {
     data(){
         return {
             products: [],
+            pagination:{},
             tempProduct:{},
             isNew: false,
             isLoading: false,
@@ -188,9 +193,13 @@ export default {
             },
         }
     },
+    // 使用元件
+    components:{
+        Pagination
+    },
     methods:{
-        getProducts(){
-            const api = `${process.env.APIPATH}/api/${process.env.CUSTOMERPATH}/products`
+        getProducts(page = 1){
+            const api = `${process.env.APIPATH}/api/${process.env.CUSTOMERPATH}/admin/products?page=${page}`
             const vm = this;
             console.log(process.env.APIPATH, process.env.CUSTOMERPATH);
             vm.isLoading = true;
@@ -198,6 +207,7 @@ export default {
                 console.log(resopnse.data);
                 vm.isLoading = false;
                 vm.products = resopnse.data.products;
+                vm.pagination = resopnse.data.pagination;
             })
         },
         openModel(isNew, item){
@@ -281,13 +291,14 @@ export default {
                 if(response.data.success){
                     console.log(response.data);
                     vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl);
+                } else{
+                    this.$bus.$emit('message:push', response.data.message, 'danger');
                 }
             })
         },
     },
     created() {
-        // this.getProducts();
-        this.getProducts();    
+        this.getProducts();
     }
     
 }
