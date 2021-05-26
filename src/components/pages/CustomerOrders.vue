@@ -22,11 +22,11 @@
                 </div>
                 <div class="card-footer d-flex">
                 <button type="button" class="btn btn-outline-secondary btn-sm" @click="getProduct(item.id)">
-                    <i class="fas fa-spinner fa-spin"></i>
+                    <i class="fas fa-spinner fa-spin" v-if="status.loadingItem === item.id"></i>
                     查看更多
                 </button>
-                <button type="button" class="btn btn-outline-danger btn-sm ml-auto">
-                    <i class="fas fa-spinner fa-spin"></i>
+                <button type="button" class="btn btn-outline-danger btn-sm ml-auto" @click="addtoCart(item.id, 1)">
+                    <i class="fas fa-spinner fa-spin" v-if="status.loadingItem === item.id"></i>
                     加到購物車
                 </button>
                 </div>
@@ -86,6 +86,9 @@ export default {
             products: [],
             product:{},
             isLoading: false,
+            status:{
+                loadingItem:'',
+            }
         }
     },
     methods: {
@@ -102,20 +105,31 @@ export default {
             })
         },
         getProduct(id){
-            const url = `${process.env.APIPATH}/api/${process.env.CUSTOMERPATH}/product/-MaWH-WKOR7wZ1rrjlOn`;
-            // https://vue-course-api.hexschool.io/api/luhuangjack/product/-MaWH-WKOR7wZ1rrjlOn
+            const url = `${process.env.APIPATH}/api/${process.env.CUSTOMERPATH}/product/${id}`;
             const vm = this;
-            vm.isLoading = true;
-            console.log(url);
+            vm.status.loadingItem = id;
+            console.log(id);
             this.$http.get(url).then((resopnse)=>{
                 vm.isLoading = false;
                 vm.product = resopnse.data.product;
                 console.log(resopnse);
-                $('productModal').modal('show');
-            })
+                $('#productModal').modal('show');
+                vm.status.loadingItem = '';
+            })            
         },
-        addtoCart(id, num){
-
+        addtoCart(id, qty = 1){
+            const url = `${process.env.APIPATH}/api/${process.env.CUSTOMERPATH}/cart`;
+            const vm = this;
+            vm.status.loadingItem = id;
+            const cart = {
+                product_id : id,
+                // qty : qty // 與下方寫法一致
+                qty          // 與上方寫法一致
+            }
+            this.$http.post(url, {data: cart}).then((resopnse)=>{
+                console.log(resopnse);
+                vm.status.loadingItem = '';
+            })  
         },
     },
     created() {
