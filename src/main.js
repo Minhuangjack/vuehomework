@@ -6,14 +6,53 @@ import VueAxios from 'vue-axios'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import 'bootstrap';
+// import Veelidate from 'vee-validate';        // Vee-validate 2.X 使用方式
+// import zhTWValidate from 'vee-validate/dist/locale/zh_TW'; // Vee-validate 2.X 使用方式
+
+// Vee-validate 3.X 使用方式
+import { ValidationObserver, ValidationProvider, extend, localize, configure } from 'vee-validate';
+import { Validator } from 'vee-validate';
+import TW from 'vee-validate/dist/locale/zh_TW.json'
+import * as rules from 'vee-validate/dist/rules';
+
 
 import App from './App'
 import router from './router';
 import './bus';
 import currencyFilter from './filters/currency';;
 
-Vue.config.productionTip = false
-Vue.use(VueAxios, axios)
+Vue.config.productionTip = false;
+Vue.use(VueAxios, axios);
+
+// Vee-validate 2.X 使用方式
+// Vue.use(Veelidate);
+// Veelidate.Validator.localize('zh_TW', zhTWValidate);
+
+Object.keys(rules).forEach((rule) => {
+  extend(rule, rules[rule]);
+});
+localize('zh_TW', TW);
+
+extend("required", {
+  validate: value => ({ required: true, valid: !!value }), // the validation function
+  message:  "此欄位為必填", // the error message
+  computesRequired: true
+});
+
+
+
+
+Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('ValidationProvider', ValidationProvider);
+
+
+configure({
+  classes: {
+    valid: 'is-valid',
+    invalid: 'is-invalid'
+  }
+});
+
 Vue.component('Loading', Loading);
 Vue.filter('currency', currencyFilter);
 

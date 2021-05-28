@@ -9,9 +9,18 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <router-link to="/admin/products" class="nav-link" >
-              <i class="fas fa-box-open"></i>
-              產品列表
+            <router-link to="/admin/products" class="nav-link">
+              <i class="fas fa-box-open"></i> 產品列表
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/admin/orders" class="nav-link">
+              <i class="far fa-list-alt"></i> 訂單列表
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/admin/coupons" class="nav-link">
+              <i class="fas fa-ticket-alt"></i> 優惠券
             </router-link>
           </li>
         </ul>

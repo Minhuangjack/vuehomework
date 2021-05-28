@@ -3,11 +3,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 //自訂的分頁元件
-import Home from '@/components/HelloWorld';
+// import Home from '@/components/HelloWorld';
 import Dashboard from '@/components/Dashboard';
 import Login from '@/components/pages/Login';
 import Products from '@/components/pages/Products';
 import CustomerOrder from '@/components/pages/CustomerOrders';
+import Coupons from '@/components/pages/Coupons';
+import Orders from '@/components/pages/Orders';
 
 //啟用
 Vue.use(VueRouter);
@@ -37,12 +39,24 @@ export default new VueRouter({
             component: Dashboard, // 對應的元件                        
             children: [
                 {
-                    name: 'Products',
-                    path: 'products', // 虛擬的路徑
-                    component: Products, // 對應的元件
-                    meta: { requiresAuth: true },
+                  path: 'products',
+                  name: 'Products',
+                  component: Products,
+                  meta: { requiresAuth: true },
                 },
-            ]
+                {
+                  path: 'coupons',
+                  name: 'Coupons',
+                  component: Coupons,
+                  meta: { requiresAuth: true },
+                },
+                {
+                  path: 'orders',
+                  name: 'Orders',
+                  component: Orders,
+                  meta: { requiresAuth: true },
+                },
+            ],
         },
         {            
             name: 'Dashboard', // 元件會呈現的名稱
