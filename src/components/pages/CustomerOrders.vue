@@ -295,14 +295,16 @@ export default {
             })
         },
         submitForm(){
-            console.log('送出 表單');
-            
+            console.log('送出表單');
             const vm = this;
             const url = `${process.env.APIPATH}/api/${process.env.CUSTOMERPATH}/order`;
             const order= vm.form;
             vm.isLoading = true;
             this.$http.post(url, { data: order}).then((response)=>{
                         console.log('訂單已建立', response);
+                        if(response.data.success){
+                            vm.$router.push(`/customer_checkout/${response.data.orderId}`)
+                        }
                         vm.isLoading = false;
                     })            
             // 2.0 寫法

@@ -43,7 +43,7 @@
         </table>
 
          <!-- 將 pagination 傳進元件，並且呼叫此元件的事件名稱 changePage -->
-        <Pagination :pagination="pagination" @changePage="getProducts"></Pagination> 
+        <Pagination :pagination="pagination" @emitPages="getProducts"></Pagination> 
         <!-- Modal -->
         <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel" aria-hidden="true">

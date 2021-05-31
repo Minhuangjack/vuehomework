@@ -27,7 +27,6 @@ export default {
   },
   created() {
     var myCookie = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    console.log('myCookie', myCookie);
     this.$http.defaults.headers.common.Authorization = myCookie;
   }
 };
