@@ -160,3 +160,17 @@
     },
   };
   </script>
+  <style>
+    a{
+      color: #42b983;
+    }
+    .nav{
+      color: #42b983;
+    }
+    .nav{
+  display:flex; 
+  width:100%;
+  height:40px;
+  line-height: 40px;  
+}
+  </style>
